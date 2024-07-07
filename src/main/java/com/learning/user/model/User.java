@@ -1,24 +1,35 @@
 package com.learning.user.model;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "user_details")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    private String userId;
+    @Column
     private String name;
+    @Column
     private Long age;
+    @Column
     private Long phoneNo;
-    private UserAddress address;
+    @Column
     private int userRating;
+    @OneToOne(mappedBy = "userDetails", fetch = FetchType.EAGER)
+    private UserAddress address;
 
-    public User() {
+    public User(String akash, long l, long l1, UserAddress userAddress, int i) {
     }
 
-    public User(String name, Long age, Long phoneNo, UserAddress address, int userRating) {
-        this.name = name;
-        this.age = age;
-        this.phoneNo = phoneNo;
-        this.address = address;
-        this.userRating = userRating;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -45,14 +56,6 @@ public class User {
         this.phoneNo = phoneNo;
     }
 
-    public UserAddress getAddress() {
-        return address;
-    }
-
-    public void setAddress(UserAddress address) {
-        this.address = address;
-    }
-
     public int getUserRating() {
         return userRating;
     }
@@ -61,14 +64,23 @@ public class User {
         this.userRating = userRating;
     }
 
+    public UserAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(UserAddress address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "userId='" + userId + '\'' +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", phoneNo=" + phoneNo +
-                ", address=" + address +
                 ", userRating=" + userRating +
+                ", address=" + address +
                 '}';
     }
 }

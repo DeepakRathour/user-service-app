@@ -1,29 +1,34 @@
 package com.learning.user.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table
 public class UserAddress {
+    @Id
+    @Column(name = "address_id")
     private String addressId;
+    @Column
     private int floor;
+    @Column
     private String apartment;
+    @Column
     private String area;
+    @Column
     private String street;
+    @Column
     private Long pinCode;
+    @Column
     private String city;
+    @Column
     private String state;
+    @Column
     private String country;
+    @OneToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn(name = "user_id")
+    private User userDetails;
 
     public UserAddress() {
-    }
-
-    public UserAddress(String addressId, int floor, String apartment, String area, String street, Long pinCode, String city, String state, String country) {
-        this.addressId = addressId;
-        this.floor = floor;
-        this.apartment = apartment;
-        this.area = area;
-        this.street = street;
-        this.pinCode = pinCode;
-        this.city = city;
-        this.state = state;
-        this.country = country;
     }
 
     public String getAddressId() {
@@ -98,6 +103,14 @@ public class UserAddress {
         this.country = country;
     }
 
+    public User getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(User userDetails) {
+        this.userDetails = userDetails;
+    }
+
     @Override
     public String toString() {
         return "UserAddress{" +
@@ -110,6 +123,7 @@ public class UserAddress {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", country='" + country + '\'' +
+                ", userDetails=" + userDetails +
                 '}';
     }
 }
