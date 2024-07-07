@@ -7,10 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +21,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> getAllUsers() {
         LOG.info("Request received to get all users");
         List<User> userList = userService.getAllUsers();
@@ -31,5 +30,32 @@ public class UserController {
         }
         LOG.info("User List:{}", userList);
         return new ResponseEntity<>(userList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUser(@PathVariable Long id) {
+        LOG.info("Request received to get user by id:{}", id);
+        User user = userService.getUser(id);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("User not found for given id", HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addUser(@Valid @RequestBody User user) {
+        LOG.info("request received to add new user:{}", user);
+        return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Long id) {
+        LOG.info("Request received to update userId:{}", id);
+        User existingUser = userService.getUser(id);
+        if (existingUser != null) {
+            user.setUserId(id);
+            return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("User not found for given id", HttpStatus.NOT_FOUND);
     }
 }

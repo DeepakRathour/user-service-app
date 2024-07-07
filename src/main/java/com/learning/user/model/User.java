@@ -27,6 +27,9 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "userDetails", fetch = FetchType.EAGER)
     private UserAddress address;
 
+    public User() {
+    }
+
     public User(String name, Long age, Long phoneNo, int userRating, UserAddress address) {
         this.name = name;
         this.age = age;
