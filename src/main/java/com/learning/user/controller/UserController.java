@@ -29,6 +29,7 @@ public class UserController {
         if (userList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        LOG.info("User List:{}", userList);
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 }

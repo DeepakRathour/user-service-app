@@ -2,14 +2,20 @@ package com.learning.user.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "user_details")
-public class User {
+public class User implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private String userId;
+    private Long userId;
     @Column
     private String name;
     @Column
@@ -21,14 +27,19 @@ public class User {
     @OneToOne(mappedBy = "userDetails", fetch = FetchType.EAGER)
     private UserAddress address;
 
-    public User(String akash, long l, long l1, UserAddress userAddress, int i) {
+    public User(String name, Long age, Long phoneNo, int userRating, UserAddress address) {
+        this.name = name;
+        this.age = age;
+        this.phoneNo = phoneNo;
+        this.userRating = userRating;
+        this.address = address;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

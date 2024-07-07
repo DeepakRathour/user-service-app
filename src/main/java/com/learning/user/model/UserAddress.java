@@ -2,12 +2,18 @@ package com.learning.user.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Table
-public class UserAddress {
+public class UserAddress implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "address_id")
-    private String addressId;
+    private Long addressId;
     @Column
     private int floor;
     @Column
@@ -25,17 +31,17 @@ public class UserAddress {
     @Column
     private String country;
     @OneToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User userDetails;
 
     public UserAddress() {
     }
 
-    public String getAddressId() {
+    public Long getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(Long addressId) {
         this.addressId = addressId;
     }
 
